@@ -1,0 +1,5 @@
+# vuex-local
+
+## License
+
+MIT
