@@ -1,0 +1,9 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {},
+  "include": [
+    "**/*.ts",
+    "../src/**/*.ts",
+    "../node_modules/@types/mocha/index.d.ts"
+  ]
+}
