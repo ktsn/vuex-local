@@ -9,7 +9,11 @@ describe('Register Local Module', () => {
   let store: Vuex.Store<any>
 
   beforeEach(() => {
-    store = new Vuex.Store({})
+    store = new Vuex.Store({
+      getters: {
+        rootGetter: () => 'root'
+      }
+    })
   })
 
   it('accepts local module registration', () => {
@@ -46,23 +50,39 @@ describe('Register Local Module', () => {
     assert(store.state.test.count === 3)
   })
 
-  it('passes local getters in local module actions', () => {
+  it('passes local getters in local module actions', done => {
     const localModule = {
       name: 'test',
       state: {
         count: 0
       },
       getters: {
-        count: (state: any) => state.count
+        count: (state: any) => state.count + 1
       },
       actions: {
-        foo ({ commit }: any, amount: any) {
-          commit('bar', amount)
+        foo ({ getters }: any) {
+          assert(getters.count === 1)
+          done()
         }
+      }
+    }
+
+    registerLocalModule(store, ['test'], localModule)
+
+    const name = localModule.name
+    store.dispatch('local/' + name + '/foo')
+  })
+
+  it('passes root getters in local module actions', done => {
+    const localModule = {
+      name: 'test',
+      state: {
+        count: 0
       },
-      mutations: {
-        bar (state: any, amount: any) {
-          state.count += amount
+      actions: {
+        foo ({ rootGetters }: any) {
+          assert(rootGetters.rootGetter === 'root')
+          done()
         }
       }
     }

@@ -62,7 +62,10 @@ function mapLocalActions (
         return dispatch(localKey(type, moduleName), payload)
       }
 
-      context.getters = makeLocalGetters(Object.keys(getters), context.getters, moduleName)
+      // expose real getters object as rootGetters
+      const rootGetters = context.getters
+      context.rootGetters = rootGetters
+      context.getters = makeLocalGetters(Object.keys(getters), rootGetters, moduleName)
 
       // execute original action
       action(context, payload)
