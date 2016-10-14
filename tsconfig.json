@@ -2,6 +2,8 @@
   "compileOnSave": false,
   "compilerOptions": {
     "target": "es5",
+    "module": "es2015",
+    "moduleResolution": "node",
     "lib": [
       "dom",
       "es2015"
@@ -9,7 +11,8 @@
     "noImplicitAny": true,
     "noImplicitThis": true,
     "strictNullChecks": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "declaration": true
   },
   "include": [
     "src/**/*.ts"

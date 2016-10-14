@@ -6,8 +6,11 @@
   "keywords": [],
   "license": "MIT",
   "main": "dist/vuex-local.cjs.js",
+  "jsnext:main": "lib/index.js",
+  "typings": "lib/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "lib"
   ],
   "homepage": "https://github.com/ktsn/vuex-local",
   "bugs": "https://github.com/ktsn/vuex-local/issues",
@@ -18,7 +21,8 @@
   "scripts": {
     "prepublish": "npm run build",
     "clean": "rm -rf dist .tmp",
-    "build": "run-p build:*",
+    "build": "run-s build:ts build:cjs build:dev build:prod",
+    "build:ts": "tsc -p . --outDir lib",
     "build:cjs": "rollup -c scripts/rollup.config.js --environment BUILD:commonjs",
     "build:dev": "rollup -c scripts/rollup.config.js --environment BUILD:development",
     "build:prod": "rollup -c scripts/rollup.config.js --environment BUILD:production | uglifyjs -mc warnings=false --comments -o dist/vuex-local.min.js",
@@ -37,7 +41,6 @@
     "power-assert": "^1.4.1",
     "rollup": "^0.36.0",
     "rollup-plugin-replace": "^1.1.1",
-    "rollup-plugin-typescript": "^0.8.1",
     "testem": "^1.12.0",
     "ts-loader": "^0.8.2",
     "tslint": "^3.15.1",
