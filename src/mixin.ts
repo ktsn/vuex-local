@@ -25,8 +25,8 @@ export function applyMixin (
       if (typeof name === 'function') {
         name = name.call(this) as string
       }
-      assert(typeof name === 'string', 'evaluated name must be string')
-      assert(name !== '', 'name cannot be empty')
+      assert(typeof name === 'string', 'local module name must be string')
+      assert(name !== '', 'local module name cannot be empty')
       assert(isObject(this.$options.local.state), 'state must be object')
 
       const modulePath = this._localModulePath = namespace.concat(name)
