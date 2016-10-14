@@ -1,6 +1,16 @@
 {
   "compileOnSave": false,
-  "compilerOptions": {},
+  "compilerOptions": {
+    "target": "es5",
+    "lib": [
+      "dom",
+      "es2015"
+    ],
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "strictNullChecks": true,
+    "sourceMap": true
+  },
   "include": [
     "**/*.ts",
     "../src/**/*.ts",

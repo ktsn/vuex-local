@@ -23,7 +23,7 @@ export function mapKeys <T>(
   obj: Dictionary<T>,
   f: (value: T, key: string) => string
 ): Dictionary<T> {
-  const res = {}
+  const res: Dictionary<T> = {}
   Object.keys(obj).forEach(key => {
     res[f(obj[key], key)] = obj[key]
   })
@@ -34,7 +34,7 @@ export function mapValues <T, U>(
   obj: Dictionary<T>,
   f: (value: T, key: string) => U
 ): Dictionary<U> {
-  const res = {}
+  const res: Dictionary<U> = {}
   Object.keys(obj).forEach(key => {
     res[key] = f(obj[key], key)
   })
