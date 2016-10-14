@@ -1,7 +1,7 @@
 import * as _Vue from 'vue'
 import { ComponentOptions } from 'vue'
-import { Getter, Action, Mutation } from 'vuex'
-import { Dictionary, LocalModule } from './declarations'
+import { Mutation } from 'vuex'
+import { Dictionary, LocalModule, LocalGetter, LocalAction } from './declarations'
 
 import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
 import { assign, mapValues, localKey } from './utils'
@@ -55,7 +55,7 @@ function applyState (
 
 function applyGetters (
   options: ComponentOptions<_Vue>,
-  getters: Dictionary<Getter<any, any>>,
+  getters: Dictionary<LocalGetter<any, any>>,
   moduleName: string
 ): void {
   if (typeof options.computed === 'undefined') {
@@ -70,7 +70,7 @@ function applyGetters (
 
 function applyActions (
   options: ComponentOptions<_Vue>,
-  actions: Dictionary<Action<any, any>>,
+  actions: Dictionary<LocalAction<any, any>>,
   moduleName: string
 ): void {
   if (typeof options.methods === 'undefined') {
