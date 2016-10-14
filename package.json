@@ -20,7 +20,7 @@
   },
   "scripts": {
     "prepublish": "npm run build",
-    "clean": "rm -rf dist .tmp",
+    "clean": "rm -rf dist .tmp lib",
     "build": "run-s build:ts build:cjs build:dev build:prod",
     "build:ts": "tsc -p . --outDir lib",
     "build:cjs": "rollup -c scripts/rollup.config.js --environment BUILD:commonjs",
