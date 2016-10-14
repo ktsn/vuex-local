@@ -1,4 +1,3 @@
-import * as Vue from 'vue'
 import { ActionContext, Mutation } from 'vuex'
 
 export type Dictionary<T> = { [key: string]: T }
@@ -15,7 +14,7 @@ type LocalGetter<S, R> = (state: S, getters: any, rootState: R, rootGetters: any
 type LocalAction<S, R> = (ctx: LocalActionContext<S, R>, payload: any) => any
 
 export interface LocalModule {
-  name: string | ((this: Vue) => string)
+  name: string
   state: Dictionary<any>
   getters?: Dictionary<LocalGetter<any, any>>
   actions?: Dictionary<LocalAction<any, any>>

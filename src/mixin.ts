@@ -22,9 +22,6 @@ export function applyMixin (
       assert(this.$store, 'store must be injected')
 
       let name = this.$options.local.name
-      if (typeof name === 'function') {
-        name = name.call(this) as string
-      }
       assert(typeof name === 'string', 'local module name must be string')
       assert(name !== '', 'local module name cannot be empty')
       assert(isObject(this.$options.local.state), 'state must be object')
