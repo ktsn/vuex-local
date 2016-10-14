@@ -23,7 +23,7 @@ describe('Global Mixin', () => {
   it('binds local module', () => {
     const vm: any = new Vue({
       store,
-      local: {
+      local: () => ({
         name: 'test',
         state: { value: 0 },
         getters: {
@@ -39,7 +39,7 @@ describe('Global Mixin', () => {
             state.value += amount
           }
         }
-      }
+      })
     })
 
     assert(store.state.local.test.value === 0)
@@ -57,10 +57,10 @@ describe('Global Mixin', () => {
   it('remove local module when component is destroyed', () => {
     const vm: any = new Vue({
       store,
-      local: {
+      local: () => ({
         name: 'test',
         state: { value: 0 }
-      }
+      })
     })
 
     assert(store.state.local.test.value === 0)

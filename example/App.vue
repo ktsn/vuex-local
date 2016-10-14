@@ -14,25 +14,31 @@
 </template>
 
 <script>
+let uid = 0
+
 export default {
-  local: {
-    name: 'counter',
-    state: {
-      count: 0
-    },
-    getters: {
-      half: state => state.count / 2
-    },
-    actions: {
-      asyncIncrement ({ commit }) {
-        setTimeout(() => {
-          commit('increment')
-        }, 1000)
-      }
-    },
-    mutations: {
-      increment (state) {
-        state.count += 1
+  local () {
+    uid += 1
+
+    return {
+      name: 'counter' + uid,
+      state: {
+        count: 0
+      },
+      getters: {
+        half: state => state.count / 2
+      },
+      actions: {
+        asyncIncrement ({ commit }) {
+          setTimeout(() => {
+            commit('increment')
+          }, 1000)
+        }
+      },
+      mutations: {
+        increment (state) {
+          state.count += 1
+        }
       }
     }
   }
