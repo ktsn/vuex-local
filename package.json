@@ -27,6 +27,7 @@
     "build:dev": "rollup -c scripts/rollup.config.js --environment BUILD:development",
     "build:prod": "rollup -c scripts/rollup.config.js --environment BUILD:production | uglifyjs -mc warnings=false --comments -o dist/vuex-local.min.js",
     "watch:test": "webpack --watch --config scripts/webpack.config.test.js",
+    "example": "npm run build:ts && webpack-dev-server --inline --hot --no-info --config scripts/webpack.config.example.js",
     "testem": "testem",
     "lint": "tslint \"src/**/*.ts\" && tslint \"test/**/*.ts\"",
     "test": "run-p watch:test testem",
@@ -35,6 +36,9 @@
   "devDependencies": {
     "@types/mocha": "^2.2.32",
     "@types/power-assert": "0.0.28",
+    "buble": "^0.13.2",
+    "buble-loader": "^0.3.1",
+    "css-loader": "^0.25.0",
     "glob": "^7.1.0",
     "json-loader": "^0.5.4",
     "npm-run-all": "^3.1.0",
@@ -46,8 +50,10 @@
     "tslint": "^3.15.1",
     "typescript": "^2.0.3",
     "vue": "^2.0.1",
+    "vue-loader": "^9.7.0",
     "vuex": "^2.0.0",
-    "webpack": "^1.13.2",
+    "webpack": "^2.1.0-beta.25",
+    "webpack-dev-server": "^2.1.0-beta.9",
     "webpack-espower-loader": "^1.0.1"
   }
 }
