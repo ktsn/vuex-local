@@ -1,7 +1,7 @@
 import { Store, Getter, Action, ActionContext, Payload } from 'vuex'
 import { Dictionary, LocalModule } from './declarations'
 
-import { localKey, mapLocal, mapKeys, mapValues } from './utils'
+import { localKey, mapValues, mapKeys } from './utils'
 
 export function registerLocalModule (
   store: Store<any>,
@@ -19,9 +19,9 @@ export function registerLocalModule (
 
   store.registerModule(modulePath, {
     state,
-    getters: mapLocal(getters, name),
-    actions: mapLocalActions(mapLocal(actions, name), getters, name),
-    mutations: mapLocal(mutations, name)
+    getters: mapLocalKeys(getters, name),
+    actions: mapLocalActions(mapLocalKeys(actions, name), getters, name),
+    mutations: mapLocalKeys(mutations, name)
   })
 }
 
@@ -30,6 +30,10 @@ export function unregisterLocalModule (
   modulePath: string[]
 ): void {
   store.unregisterModule(modulePath)
+}
+
+export function mapLocalKeys (obj: Dictionary<any>, moduleName: string): Dictionary<any> {
+  return mapKeys(obj, (_, key) => localKey(key, moduleName))
 }
 
 function mapLocalActions (

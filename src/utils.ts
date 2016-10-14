@@ -6,10 +6,6 @@ export function localKey (key: string, moduleName: string): string {
   return [modulePrefix, moduleName, key].join('/')
 }
 
-export function mapLocal (obj: Dictionary<any>, moduleName: string): Dictionary<any> {
-  return mapKeys(obj, (_, key) => localKey(key, moduleName))
-}
-
 export function assign <T extends Object, V extends Object>(a: T, b: V): T & V {
   const _a: any = a
   const _b: any = b
