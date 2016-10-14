@@ -38,6 +38,8 @@ export function applyMixin (
     },
 
     beforeDestroy () {
+      if (!this.$options.local) return
+
       unregisterLocalModule(this.$store, this._localModulePath)
     }
   } as ComponentOptions<_Vue & VuePrivate>)
