@@ -50,6 +50,39 @@ describe('Register Local Module', () => {
     assert(store.state.test.count === 3)
   })
 
+  it('passes local getters in getter function', () => {
+    const localModule = {
+      name: 'test',
+      state: {},
+      getters: {
+        ten: () => 10,
+        test: (state: any, getters: any) => getters.ten + 5
+      }
+    }
+
+    registerLocalModule(store, ['test'], localModule)
+
+    const name = localModule.name
+    assert(store.getters['local/' + name + '/test'] === 15)
+  })
+
+  it('passes root getters in getter function', () => {
+    const localModule = {
+      name: 'test',
+      state: {},
+      getters: {
+        root: (state: any, getters: any, rootState: any, rootGetters: any) => {
+          return rootGetters.rootGetter
+        }
+      }
+    }
+
+    registerLocalModule(store, ['test'], localModule)
+
+    const name = localModule.name
+    assert(store.getters['local/' + name + '/root'] === 'root')
+  })
+
   it('passes local getters in local module actions', done => {
     const localModule = {
       name: 'test',

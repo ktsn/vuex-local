@@ -1,5 +1,5 @@
-import { Store, Getter, Action, ActionContext, Payload } from 'vuex'
-import { Dictionary, LocalModule } from './declarations'
+import { Store, Getter, Action, Payload } from 'vuex'
+import { Dictionary, LocalModule, LocalGetter, LocalAction } from './declarations'
 
 import { localKey, mapValues, mapKeys } from './utils'
 
@@ -19,8 +19,8 @@ export function registerLocalModule (
 
   store.registerModule(modulePath, {
     state,
-    getters: mapLocalKeys(getters, name),
-    actions: mapLocalActions(mapLocalKeys(actions, name), getters, name),
+    getters: mapLocalKeys(mapLocalGetters(getters, name), name),
+    actions: mapLocalKeys(mapLocalActions(actions, getters, name), name),
     mutations: mapLocalKeys(mutations, name)
   })
 }
@@ -36,13 +36,25 @@ export function mapLocalKeys (obj: Dictionary<any>, moduleName: string): Diction
   return mapKeys(obj, (_, key) => localKey(key, moduleName))
 }
 
+function mapLocalGetters (
+  getters: Dictionary<LocalGetter<any, any>>,
+  moduleName: string
+): Dictionary<Getter<any, any>> {
+  return mapValues(getters, getter => {
+    return function wrappedGetter (state, rootGetters, rootState) {
+      const localGetters = makeLocalGetters(Object.keys(getters), rootGetters, moduleName)
+      return getter(state, localGetters, rootState, rootGetters)
+    } as Getter<any, any>
+  })
+}
+
 function mapLocalActions (
-  actions: Dictionary<Action<any, any>>,
-  getters: Dictionary<Getter<any, any>>,
+  actions: Dictionary<LocalAction<any, any>>,
+  getters: Dictionary<LocalGetter<any, any>>,
   moduleName: string
 ): Dictionary<Action<any, any>> {
   return mapValues(actions, action => {
-    return function localAction (context: ActionContext<any, any>, payload: any) {
+    return function wrappedAction (context, payload) {
       // overwrite commit and dispatch to convert
       // action and mutation type to prefixed format
       const { commit, dispatch } = context
@@ -69,7 +81,7 @@ function mapLocalActions (
 
       // execute original action
       action(context, payload)
-    }
+    } as LocalAction<any, any>
   })
 }
 
