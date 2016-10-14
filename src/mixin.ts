@@ -3,6 +3,7 @@ import { ComponentOptions } from 'vue'
 import { PluginOptions, VuePrivate } from './declarations.d'
 
 import { registerLocalModule, unregisterLocalModule } from './register'
+import { applyLocalModule } from './map'
 
 import { isObject, assert } from './utils'
 
@@ -31,6 +32,9 @@ export function applyMixin (
       const modulePath = this._localModulePath = namespace.concat(name)
 
       registerLocalModule(this.$store, modulePath, this.$options.local)
+
+      // map the local module to this vm
+      applyLocalModule(this.$options, modulePath, this.$options.local)
     },
 
     beforeDestroy () {
