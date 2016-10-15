@@ -2,8 +2,14 @@
   "name": "vuex-local",
   "version": "0.0.0",
   "author": "katashin",
-  "description": "",
-  "keywords": [],
+  "description": "Local state management within Vuex",
+  "keywords": [
+    "local",
+    "state",
+    "management",
+    "Vue",
+    "Vuex"
+  ],
   "license": "MIT",
   "main": "dist/vuex-local.cjs.js",
   "jsnext:main": "lib/index.js",
