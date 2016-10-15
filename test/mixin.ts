@@ -6,21 +6,54 @@ import { applyMixin } from '../src/mixin'
 Vue.use(Vuex)
 
 describe('Global Mixin', () => {
-  let store: Vuex.Store<any>
-
   applyMixin(Vue, {
     parentModulePath: ['local']
   })
 
-  beforeEach(() => {
-    store = new Vuex.Store({
+  it('auto declare parent module', () => {
+    const store: Vuex.Store<any> = new Vuex.Store({})
+
+    new Vue({
+      store,
+      local: () => ({
+        name: 'test',
+        state: { value: 0 }
+      })
+    })
+
+    assert(typeof store.state.local === 'object')
+  })
+
+  it('does not touch existing parent module', () => {
+    const store: Vuex.Store<any> = new Vuex.Store({
       modules: {
-        local: {}
+        local: {
+          modules: {
+            foo: {
+              state: {
+                value: 'foo'
+              }
+            }
+          }
+        }
       }
     })
+
+    new Vue({
+      store,
+      local: () => ({
+        name: 'test',
+        state: { value: 'test' }
+      })
+    })
+
+    assert(store.state.local.foo.value === 'foo')
+    assert(store.state.local.test.value === 'test')
   })
 
   it('binds local module', () => {
+    const store: Vuex.Store<any> = new Vuex.Store({})
+
     const vm: any = new Vue({
       store,
       local: () => ({
@@ -55,6 +88,8 @@ describe('Global Mixin', () => {
   })
 
   it('remove local module when component is destroyed', () => {
+    const store: Vuex.Store<any> = new Vuex.Store({})
+
     const vm: any = new Vue({
       store,
       local: () => ({
