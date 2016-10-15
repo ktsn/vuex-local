@@ -4,11 +4,11 @@ Local state management within Vuex
 
 ## Why?
 
-Global state management is one of the problems on huge application development. Developers address the problem by using *Flux* pattern and *Single Source of Truth* store like Redux and Vuex. They simplify and make trackable application data flow.
+Global state management is one of the problems on huge application development. Developers address the problem by using *Flux* pattern and *Single Source of Truth* store like [Redux](https://github.com/reactjs/redux) and [Vuex](https://github.com/vuejs/vuex). They simplify and make trackable application data flow.
 
-However, we sometimes have to manage component local state. Because it is too complicated to manage component specific state on a global store. For addressing local state, we cannot embrace the global store advantage - trackable data flow.
+However, we sometimes have to manage component local state. Because it is too complicated to manage component specific state on a global store. For addressing local state, we cannot embrace the global store advantage - trackable data flow and time-travel debugging.
 
-vuex-local achieves simple and trackable local state management. We can define a local Vuex module in each component and it will be registered on a Vuex store. In addition we can use a local module on a component in natural way.
+vuex-local achieves simple and trackable local state management. We can define a local Vuex module in each component and it will be registered on a Vuex store. This let us use features of [dev tools](https://github.com/vuejs/vue-devtools) such as time-travel debugging for local state. In addition we can use a local module on a component in natural way.
 
 ## Example
 
