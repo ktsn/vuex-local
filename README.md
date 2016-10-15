@@ -1,5 +1,8 @@
 # vuex-local
 
+[![npm version](https://badge.fury.io/js/vuex-local.svg)](https://badge.fury.io/js/vuex-local)
+[![Build Status](https://travis-ci.org/ktsn/vuex-local.svg?branch=master)](https://travis-ci.org/ktsn/vuex-local)
+
 Local state management within Vuex
 
 ## Why?
