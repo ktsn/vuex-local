@@ -29,13 +29,8 @@ Vue.use(VuexLocal, {
   parentModulePath: ['locals']
 })
 
-export default new Vuex.Store({
-  modules: {
-    // make sure to define the module that is
-    // specified by `parentModulePath` option
-    locals: {}
-  }
-})
+// generate `locals` module automatically
+export default new Vuex.Store({})
 ```
 
 Then, you can define a local module on each component. The component option will have `local` property that is a function returning a local module object.
