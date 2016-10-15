@@ -12,7 +12,7 @@ export function applyMixin (
   options: PluginOptions
 ): void {
   const {
-    namespace = []
+    parentModulePath = []
   } = options
 
   Vue.mixin({
@@ -28,7 +28,7 @@ export function applyMixin (
       assert(name !== '', 'local module name cannot be empty')
       assert(isObject(localModule.state), 'state must be object')
 
-      const modulePath = this._localModulePath = namespace.concat(name)
+      const modulePath = this._localModulePath = parentModulePath.concat(name)
 
       registerLocalModule(this.$store, modulePath, localModule)
 

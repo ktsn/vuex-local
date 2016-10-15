@@ -9,7 +9,7 @@ describe('Global Mixin', () => {
   let store: Vuex.Store<any>
 
   applyMixin(Vue, {
-    namespace: ['local']
+    parentModulePath: ['local']
   })
 
   beforeEach(() => {
@@ -27,7 +27,7 @@ describe('Global Mixin', () => {
         name: 'test',
         state: { value: 0 },
         getters: {
-          plus10: state => state.value + 10
+          plus10: (state: any) => state.value + 10
         },
         actions: {
           foo ({ commit }: any, amount: number) {

@@ -3,7 +3,7 @@ import { ActionContext, Mutation } from 'vuex'
 export type Dictionary<T> = { [key: string]: T }
 
 export interface PluginOptions {
-  namespace?: string[]
+  parentModulePath?: string[]
 }
 
 interface LocalActionContext<S, R> extends ActionContext<S, R> {

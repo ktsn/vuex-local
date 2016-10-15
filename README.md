@@ -12,7 +12,7 @@ vuex-local achieves simple and trackable local state management. We can define a
 
 ## Example
 
-First, you have to install vuex-local for Vue.js. vuex-local can receive `namespace` option to specify where to register all local modules.
+First, you have to install vuex-local for Vue.js. vuex-local can receive `parentModulePath` option to specify where to register all local modules.
 
 ```js
 // store.js
@@ -22,12 +22,15 @@ import * as VuexLocal from 'vuex-local'
 
 Vue.use(Vuex)
 Vue.use(VuexLocal, {
-  namespace: ['locals'] // local modules will be registered under `locals` module
+  // local modules will be registered under `locals` module
+  parentModulePath: ['locals']
 })
 
 export default new Vuex.Store({
   modules: {
-    locals: {} // make sure to define the module that is specified by `namespace` option
+    // make sure to define the module that is
+    // specified by `parentModulePath` option
+    locals: {}
   }
 })
 ```
