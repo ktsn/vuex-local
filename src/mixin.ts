@@ -1,5 +1,6 @@
 import * as _Vue from 'vue'
 import { ComponentOptions } from 'vue'
+import { Store } from 'vuex'
 import { PluginOptions, VuePrivate } from './declarations.d'
 
 import { registerLocalModule, unregisterLocalModule } from './register'
@@ -20,6 +21,8 @@ export function applyMixin (
       if (!this.$options.local) return
 
       assert(this.$store, 'store must be injected')
+
+      ensureParent(this.$store, parentModulePath)
 
       const localModule = this.$options.local.call(this)
 
@@ -42,4 +45,17 @@ export function applyMixin (
       unregisterLocalModule(this.$store, this._localModulePath)
     }
   } as ComponentOptions<_Vue & VuePrivate>)
+}
+
+function ensureParent (store: Store<any>, parentPath: string[]): void {
+  let state = store.state
+  const currentPath: string[] = []
+  parentPath.forEach(key => {
+    state = state[key]
+    currentPath.push(key)
+
+    if (typeof state === 'undefined') {
+      store.registerModule(currentPath, {})
+    }
+  })
 }
