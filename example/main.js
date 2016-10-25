@@ -11,5 +11,7 @@ const store = new Vuex.Store({})
 
 new Vue({
   store,
-  render: h => h(App)
+  render: h => h(App, {
+    props: { name: 'counterApp' }
+  })
 }).$mount('#app')

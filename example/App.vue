@@ -14,14 +14,17 @@
 </template>
 
 <script>
-let uid = 0
-
 export default {
-  local () {
-    uid += 1
+  props: {
+    name: {
+      type: String,
+      required: true
+    }
+  },
 
+  local () {
     return {
-      name: 'counter' + uid,
+      name: this.name,
       state: {
         count: 0
       },

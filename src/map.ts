@@ -1,30 +1,28 @@
-import * as _Vue from 'vue'
-import { ComponentOptions } from 'vue'
+import * as Vue from 'vue'
 import { Mutation } from 'vuex'
 import { Dictionary, LocalModule, LocalGetter, LocalAction } from './declarations'
 
-import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
-import { assign, mapValues, localKey } from './utils'
+import { localKey } from './utils'
 
-export function applyLocalModule (
-  options: ComponentOptions<_Vue>,
+export function mapLocalModule (
+  vm: Vue,
   modulePath: string[],
   module: LocalModule
 ): void {
-  applyState(options, module.state, modulePath)
+  mapState(vm, module.state, modulePath)
 
   const moduleName = modulePath[modulePath.length - 1]
 
   if (module.getters) {
-    applyGetters(options, module.getters, moduleName)
+    mapGetters(vm, module.getters, moduleName)
   }
 
   if (module.actions) {
-    applyActions(options, module.actions, moduleName)
+    mapActions(vm, module.actions, moduleName)
   }
 
   if (module.mutations) {
-    applyMutations(options, module.mutations, moduleName)
+    mapMutations(vm, module.mutations, moduleName)
   }
 }
 
@@ -32,68 +30,54 @@ function getSubState (state: any, path: string[]) {
   return path.reduce((sub, key) => sub[key], state)
 }
 
-function mapGlobal (options: Dictionary<any>, moduleName: string): Dictionary<string> {
-  return mapValues(options, (_, key) => localKey(key, moduleName))
-}
-
-function applyState (
-  options: ComponentOptions<_Vue>,
+function mapState (
+  vm: Vue,
   state: Dictionary<any>,
   path: string[]
 ): void {
-  if (typeof options.computed === 'undefined') {
-    options.computed = {}
-  }
-
-  assign(
-    options.computed,
-    mapState(mapValues(state, (_, key) => {
-      return (state: any) => getSubState(state, path)[key]
-    }))
-  )
+  Object.keys(state).forEach(key => {
+    Object.defineProperty(vm, key, {
+      enumerable: true,
+      configurable: true,
+      get: () => getSubState(vm.$store.state, path)[key]
+    })
+  })
 }
 
-function applyGetters (
-  options: ComponentOptions<_Vue>,
+function mapGetters (
+  vm: Vue,
   getters: Dictionary<LocalGetter<any, any>>,
   moduleName: string
 ): void {
-  if (typeof options.computed === 'undefined') {
-    options.computed = {}
-  }
-
-  assign(
-    options.computed,
-    mapGetters(mapGlobal(getters, moduleName))
-  )
+  Object.keys(getters).forEach(key => {
+    Object.defineProperty(vm, key, {
+      enumerable: true,
+      configurable: true,
+      get: () => vm.$store.getters[localKey(key, moduleName)]
+    })
+  })
 }
 
-function applyActions (
-  options: ComponentOptions<_Vue>,
+function mapActions (
+  vm: Vue,
   actions: Dictionary<LocalAction<any, any>>,
   moduleName: string
 ): void {
-  if (typeof options.methods === 'undefined') {
-    options.methods = {}
-  }
-
-  assign(
-    options.methods,
-    mapActions(mapGlobal(actions, moduleName))
-  )
+  Object.keys(actions).forEach(key => {
+    (vm as any)[key] = (payload: any) => {
+      return vm.$store.dispatch(localKey(key, moduleName), payload)
+    }
+  })
 }
 
-function applyMutations (
-  options: ComponentOptions<_Vue>,
+function mapMutations (
+  vm: Vue,
   mutations: Dictionary<Mutation<any>>,
   moduleName: string
 ): void {
-  if (typeof options.methods === 'undefined') {
-    options.methods = {}
-  }
-
-  assign(
-    options.methods,
-    mapMutations(mapGlobal(mutations, moduleName))
-  )
+  Object.keys(mutations).forEach(key => {
+    (vm as any)[key] = (payload: any) => {
+      vm.$store.commit(localKey(key, moduleName), payload)
+    }
+  })
 }

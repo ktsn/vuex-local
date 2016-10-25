@@ -4,7 +4,7 @@ import { Store } from 'vuex'
 import { PluginOptions, VuePrivate } from './declarations.d'
 
 import { registerLocalModule, unregisterLocalModule } from './register'
-import { applyLocalModule } from './map'
+import { mapLocalModule } from './map'
 
 import { isObject, assert } from './utils'
 
@@ -17,7 +17,7 @@ export function applyMixin (
   } = options
 
   Vue.mixin({
-    beforeCreate () {
+    created () {
       if (!this.$options.local) return
 
       assert(this.$store, 'store must be injected')
@@ -36,7 +36,7 @@ export function applyMixin (
       registerLocalModule(this.$store, modulePath, localModule)
 
       // map the local module to this vm
-      applyLocalModule(this.$options, modulePath, localModule)
+      mapLocalModule(this, modulePath, localModule)
     },
 
     beforeDestroy () {
