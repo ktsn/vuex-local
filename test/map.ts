@@ -1,7 +1,7 @@
 import * as assert from 'power-assert'
 import * as Vue from 'vue'
 import * as Vuex from 'vuex'
-import { applyLocalModule } from '../src/map'
+import { mapLocalModule } from '../src/map'
 
 Vue.use(Vuex)
 
@@ -51,7 +51,7 @@ describe('Map Local Module', () => {
     const vm: any = new Vue({
       store,
       beforeCreate () {
-        applyLocalModule(this.$options, ['test'], localModule)
+        mapLocalModule(this, ['test'], localModule)
       }
     })
 

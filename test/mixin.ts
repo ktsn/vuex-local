@@ -104,4 +104,27 @@ describe('Global Mixin', () => {
 
     assert(store.state.local.test === undefined)
   })
+
+  it('acquires props in generator function', () => {
+    const store: Vuex.Store<any> = new Vuex.Store({})
+
+    const vm: any = new Vue({
+      store,
+      props: ['foo'],
+      propsData: {
+        foo: 'test'
+      },
+      local (this: Vue & { foo: string }) {
+        return {
+          name: 'test',
+          state: {
+            value: this.foo
+          }
+        }
+      }
+    })
+
+    assert(store.state.local.test.value === 'test')
+    assert(vm.value === 'test')
+  })
 })
