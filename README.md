@@ -91,6 +91,52 @@ vm.asyncIncrement() // increment after 1000ms
 vm.increment() // increment immediately
 ```
 
+## Testing with vuex-local
+Testing vuex-local module can be as easy as ordinary vuex module. Just getting the module by Component.local().
+
+```js
+const module = App.local.call({name:'counterApp'});//use .call to inject a mock component
+let {state,getters,actions,mutations} = module;
+```
+
+A full example here:
+```js
+import App from '../App.vue';
+
+describe('App Local Module',()=>{
+    const module = App.local.call({name:'counterApp'});//use .call to inject a mock component
+    let {state, getters, actions, mutations} = module;
+    it('counter to be 0 initially',()=>{
+        expect(state.count).to.be.equal(0);
+        const anotherModule = App.local.call({name:'counterApp'});
+        expect(anotherModule.state.count).to.be.equal(0);
+    });
+    it('return half',()=>{
+        expect(getters.half({count:0})).to.be.equal(0);
+        expect(getters.half({count:-1})).to.be.equal(-0.5);
+        expect(getters.half({count:1})).to.be.equal(0.5);
+    });
+    it('increment the counter in state',()=>{
+        let state = {count:0};
+        mutations.increment(state);
+        expect(state.count).to.be.equal(1);
+        mutations.increment(state);
+        expect(state.count).to.be.equal(2);
+    });
+    it('increment after 1 second',function(done){
+        this.timeout(1100);
+        let begin = Date.now();
+        let commit = (mutationName)=>{
+            expect(mutationName).to.be.equal('increment');
+            expect(Date.now() - begin).to.be.above(900);
+            expect(Date.now() - begin).to.be.below(1100);
+            done();
+        };
+        actions.asyncIncrement({commit});
+    });
+});
+```
+
 ## License
 
 MIT
