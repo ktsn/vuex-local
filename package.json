@@ -59,8 +59,8 @@
     "vue": "^2.0.1",
     "vue-loader": "^9.7.0",
     "vuex": "^2.0.0",
-    "webpack": "^2.1.0-beta.25",
-    "webpack-dev-server": "^2.1.0-beta.9",
+    "webpack": "^2.2.0-rc.3",
+    "webpack-dev-server": "^2.2.0-rc.0",
     "webpack-espower-loader": "^1.0.1"
   }
 }

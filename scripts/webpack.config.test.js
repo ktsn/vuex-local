@@ -13,7 +13,7 @@ module.exports = {
   },
   module: {
     rules: [
-      { test: /\.ts$/, loader: 'webpack-espower!ts' },
+      { test: /\.ts$/, loader: 'webpack-espower-loader!ts-loader' },
       { test: /\.json$/, loader: 'json-loader' }
     ]
   },

@@ -12,8 +12,8 @@ module.exports = {
   },
   module: {
     rules: [
-      { test: /\.js$/, loader: 'buble' },
-      { test: /\.vue$/, loader: 'vue' }
+      { test: /\.js$/, loader: 'buble-loader' },
+      { test: /\.vue$/, loader: 'vue-loader' }
     ]
   },
   devtool: 'source-map',
