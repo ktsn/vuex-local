@@ -39,6 +39,8 @@ The local module object is same as normal Vuex module except to have `name` opti
 
 In local module getters and actions, `getters`, `dispatch` and `commit` is namespaced implicitly. In other words, we do not have to care about effects for other global modules. If you want to use root level getters, you can use them from 4th argument of each getter function or `rootGetters` property of the action context.
 
+To dispatch actions or commit mutations in the global namespace, pass `{ root: true }` as the 3rd argument to `dispatch` and `commit`.
+
 ```html
 <script>
 // Counter.vue

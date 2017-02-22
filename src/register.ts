@@ -58,20 +58,21 @@ function mapLocalActions (
       // overwrite commit and dispatch to convert
       // action and mutation type to prefixed format
       const { commit, dispatch } = context
-      context.commit = function localCommit (type: string | Payload, payload?: any, options?: any) {
+      context.commit = function localCommit (type: string | Payload, payload?: any, options: Dictionary<any> = {}) {
         if (typeof type === 'object') {
           options = payload
           type = type.type
           payload = type
         }
-        return commit(localKey(type, moduleName), payload, options)
+        return commit(options.root ? type : localKey(type, moduleName), payload, options)
       }
-      context.dispatch = function localDispatch (type: string | Payload, payload?: any) {
+      context.dispatch = function localDispatch (type: string | Payload, payload?: any, options: Dictionary<any> = {}) {
         if (typeof type === 'object') {
+          options = payload
           type = type.type
           payload = type
         }
-        return dispatch(localKey(type, moduleName), payload)
+        return dispatch(options.root ? type : localKey(type, moduleName), payload, options)
       }
 
       // expose real getters object as rootGetters
