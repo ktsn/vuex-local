@@ -15,7 +15,7 @@ const config = {
  * ${meta.homepage}
  *
  * @license
- * Copyright (c) 2016 ${meta.author}
+ * Copyright (c) 2016-2017 ${meta.author}
  * Released under the MIT license
  * ${meta.homepage}/blob/master/LICENSE
  */`
