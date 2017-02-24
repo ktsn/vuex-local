@@ -10,8 +10,25 @@ describe('Register Local Module', () => {
 
   beforeEach(() => {
     store = new Vuex.Store({
+      state: {
+        property: null
+      },
       getters: {
-        rootGetter: () => 'root'
+        rootGetter: () => 'root',
+        propertyGetter: (state: any) => state.property
+      },
+      mutations: {
+        baz (state: any, value: any) {
+          state.property = value
+        }
+      },
+      actions: {
+        rootAction ({ commit }: any, value: any) {
+          return new Promise(resolve => {
+            commit('baz', value)
+            resolve()
+          })
+        }
       }
     })
   })
@@ -139,6 +156,47 @@ describe('Register Local Module', () => {
       actions: {
         foo ({ getters }: any) {
           assert(getters.count === 0)
+        }
+      }
+    }
+
+    registerLocalModule(store, ['test'], localModule)
+
+    store.dispatch('local/' + localModule.name + '/foo')
+  })
+
+  it('should commit to the global store when root option enabled.', done => {
+    const localModule = {
+      name: 'test',
+      state: {
+        count: 0
+      },
+      actions: {
+        foo ({ commit, rootGetters }: any) {
+          commit('baz', 'qux', { root: true })
+          assert(rootGetters.propertyGetter === 'qux')
+          done()
+        }
+      }
+    }
+
+    registerLocalModule(store, ['test'], localModule)
+
+    store.dispatch('local/' + localModule.name + '/foo')
+  })
+
+  it('should dispatch to the global store when root option enabled.', done => {
+    const localModule = {
+      name: 'test',
+      state: {
+        count: 0
+      },
+      actions: {
+        foo ({ dispatch, rootGetters }: any) {
+          dispatch('rootAction', 'bar', { root: true }).then(() => {
+            assert(rootGetters.propertyGetter === 'bar')
+            done()
+          })
         }
       }
     }
