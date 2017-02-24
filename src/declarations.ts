@@ -6,12 +6,12 @@ export interface PluginOptions {
   parentModulePath?: string[]
 }
 
-interface LocalActionContext<S, R> extends ActionContext<S, R> {
+export interface LocalActionContext<S, R> extends ActionContext<S, R> {
   rootGetters: any
 }
 
-type LocalGetter<S, R> = (state: S, getters: any, rootState: R, rootGetters: any) => any
-type LocalAction<S, R> = (ctx: LocalActionContext<S, R>, payload: any) => any
+export type LocalGetter<S, R> = (state: S, getters: any, rootState: R, rootGetters: any) => any
+export type LocalAction<S, R> = (ctx: LocalActionContext<S, R>, payload: any) => any
 
 export interface LocalModule {
   name: string

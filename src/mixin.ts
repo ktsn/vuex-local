@@ -1,7 +1,7 @@
 import * as _Vue from 'vue'
 import { ComponentOptions } from 'vue'
 import { Store } from 'vuex'
-import { PluginOptions, VuePrivate } from './declarations.d'
+import { PluginOptions, VuePrivate } from './declarations'
 
 import { registerLocalModule, unregisterLocalModule } from './register'
 import { mapLocalModule } from './map'
