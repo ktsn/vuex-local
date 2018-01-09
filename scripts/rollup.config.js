@@ -1,34 +1,39 @@
 const replace = require('rollup-plugin-replace')
 const meta = require('../package.json')
 
-const config = {
-  entry: 'lib/index.js',
-  moduleName: 'VuexLocal',
-  plugins: [],
-  external: ['vue', 'vuex'],
-  globals: {
-    vue: 'Vue',
-    vuex: 'Vuex'
-  },
-  banner: `/*!
+const banner = `/*!
  * ${meta.name} v${meta.version}
  * ${meta.homepage}
  *
  * @license
- * Copyright (c) 2016-2017 ${meta.author}
+ * Copyright (c) 2016-present ${meta.author}
  * Released under the MIT license
  * ${meta.homepage}/blob/master/LICENSE
  */`
+
+const config = {
+  input: 'lib/index.js',
+  output: {
+    name: 'VuexLocal',
+    globals: {
+      vue: 'Vue',
+      vuex: 'Vuex'
+    },
+    banner
+  },
+  plugins: [],
+  external: ['vue', 'vuex']
 }
 
+const output = config.output
 switch (process.env.BUILD) {
   case 'commonjs':
-    config.dest = `dist/${meta.name}.cjs.js`
-    config.format = 'cjs'
+    output.file = `dist/${meta.name}.cjs.js`
+    output.format = 'cjs'
     break
   case 'development':
-    config.dest = `dist/${meta.name}.js`
-    config.format = 'umd'
+    output.file = `dist/${meta.name}.js`
+    output.format = 'umd'
     config.plugins.push(
       replace({
         'process.env.NODE_ENV': JSON.stringify('development')
@@ -36,7 +41,7 @@ switch (process.env.BUILD) {
     )
     break
   case 'production':
-    config.format = 'umd'
+    output.format = 'umd'
     config.plugins.push(
       replace({
         'process.env.NODE_ENV': JSON.stringify('production')

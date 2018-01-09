@@ -1,4 +1,4 @@
-import * as Vue from 'vue'
+import Vue from 'vue'
 import { LocalModule } from './declarations'
 
 declare module 'vue/types/options' {

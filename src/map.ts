@@ -1,4 +1,4 @@
-import * as Vue from 'vue'
+import Vue from 'vue'
 import { Mutation } from 'vuex'
 import { Dictionary, LocalModule, LocalGetter, LocalAction } from './declarations'
 

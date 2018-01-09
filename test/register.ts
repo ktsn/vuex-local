@@ -1,5 +1,5 @@
 import * as assert from 'power-assert'
-import * as Vue from 'vue'
+import Vue from 'vue'
 import * as Vuex from 'vuex'
 import { registerLocalModule } from '../src/register'
 

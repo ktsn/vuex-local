@@ -1,4 +1,4 @@
-import * as _Vue from 'vue'
+import _Vue from 'vue'
 import { ComponentOptions } from 'vue'
 import { Store } from 'vuex'
 import { PluginOptions, VuePrivate } from './declarations'
@@ -44,7 +44,7 @@ export function applyMixin (
 
       unregisterLocalModule(this.$store, this._localModulePath)
     }
-  } as ComponentOptions<_Vue & VuePrivate>)
+  } as ComponentOptions<_Vue & VuePrivate> & ThisType<_Vue & VuePrivate>)
 }
 
 function ensureParent (store: Store<any>, parentPath: string[]): void {

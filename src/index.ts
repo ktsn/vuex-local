@@ -1,6 +1,6 @@
 import './vue'
 
-import * as _Vue from 'vue'
+import _Vue from 'vue'
 import { PluginOptions } from './declarations'
 import { applyMixin } from './mixin'
 import { warn } from './utils'
