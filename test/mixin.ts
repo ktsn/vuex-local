@@ -13,6 +13,7 @@ describe('Global Mixin', () => {
   it('auto declare parent module', () => {
     const store: Vuex.Store<any> = new Vuex.Store({})
 
+    // tslint:disable-next-line
     new Vue({
       store,
       local: () => ({
@@ -39,6 +40,7 @@ describe('Global Mixin', () => {
       }
     })
 
+    // tslint:disable-next-line
     new Vue({
       store,
       local: () => ({
